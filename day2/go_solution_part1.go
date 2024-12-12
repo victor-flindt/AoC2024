@@ -50,11 +50,13 @@ func main() {
 	reader := csv.NewReader(file)
 	reader.FieldsPerRecord = -1
 	var total_safe int = 0
+	var total_safe_part2 int = 0
 	for {
 		// read row in from csv file
 		row, err := reader.Read()
 		// preallocate array size
 		list1 := make([]float64, 0, len(row))
+		list2 := make([]float64, 0, len(row))
 
 		if err != nil {
 			if err.Error() == "EOF" {
@@ -76,71 +78,28 @@ func main() {
 		if safe {
 			fmt.Println("row is safe ")
 			total_safe += 1
+			total_safe_part2 += 1
 		} else {
-			fmt.Println("row is unsafe msg:", msg)
-		}
-	}
-
-	// Open the second file
-	file2, err := os.Open("data.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer file2.Close()
-
-	// solving problem2
-	reader2 := csv.NewReader(file2)
-	reader2.FieldsPerRecord = -1
-	var total_safe2 int = 0
-	for {
-		// read row in from csv file
-		row, err := reader2.Read()
-		// preallocate array size
-		list1 := make([]float64, 0, len(row))
-
-		if err != nil {
-			if err.Error() == "EOF" {
-				break
-			}
-			panic(err)
-		}
-
-		// converting string to float 64
-		for _, element := range row {
-			float_element, err := strconv.ParseFloat(element, 64)
-			if err != nil {
-				panic(err.Error())
-			}
-			list1 = append(list1, float_element)
-		}
-
-		// Check if the original row is safe
-		safe, msg := is_safe(list1)
-		if safe {
-			fmt.Println("row is safe ")
-			total_safe2 += 1
-		} else {
-			// Iterate over the list and "pop" an element at each index to check safety
 			for index := 0; index < len(list1); index++ {
 				// Create a new slice by removing the element at 'index'
-				var row_popped_element = append(list1[:index], list1[index+1:]...)
+				// fmt.Println("INDEX", list1[:index], list1[index+1:])
 
-				// Print the updated slice
-				fmt.Println("INDE")
-				fmt.Println(row_popped_element)
+				list2 = append(list2, list1[:index]...)
+				list2 = append(list2, list1[index+1:]...)
 
-				// Check if it's safe after removing the element
-				safe2, _ := is_safe(row_popped_element)
-				if safe2 {
-					total_safe2 += 1
-					break // Exit the loop if the condition is satisfied
+				safe, msg = is_safe(list2)
+				if safe {
+					total_safe_part2 += 1
+					break
+				} else {
+					list2 = list2[:0]
+					continue
 				}
 			}
-			// Print the unsafe message if no "safe" configuration was found
 			fmt.Println("row is unsafe msg:", msg)
 		}
 	}
 	// Print totals after processing both files
 	fmt.Println("Total safe part1: ", total_safe)
-	fmt.Println("Total safe part2: ", total_safe2)
+	fmt.Println("Total safe part2: ", total_safe_part2)
 }

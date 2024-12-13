@@ -1,40 +1,62 @@
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
+	"os"
+	"regexp"
+	"strconv"
+	"strings"
 )
 
+func extrac_nums(str string) (a int64, b int64) {
+
+	regex, _ := regexp.Compile("\\d{1,3}")
+
+	matches := regex.FindAllString(str, 2)
+
+	a, _ = strconv.ParseInt(matches[0], 10, 32)
+
+	b, _ = strconv.ParseInt(matches[1], 10, 32)
+
+	return a, b
+
+}
+
 func main() {
+	// Open the first file
+	file, err := os.Open("data.data")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
 
-	list1 := make([]int, 3, 3)
-	list2 := make([]int, 3, 3)
-	list3 := make([]int, 6, 6)
+	// solving problem1
+	reader := csv.NewReader(file)
+	reader.FieldsPerRecord = -1
+	var total int64 = 0
 
-	for i := 0; i < len(list1); i++ {
+	for {
+		// read row in from csv file
+		row, err := reader.Read()
 
-		list1[i] = i
-		fmt.Println(i)
+		if err != nil {
+			if err.Error() == "EOF" {
+				break
+			}
+			panic(err)
+		}
+
+		regex, _ := regexp.Compile("mul\\(\\d{1,3}\\,\\d{1,3}\\)")
+
+		matches := regex.FindAllString(strings.Join(row[:], ","), -1)
+		for _, match := range matches {
+			a, b := extrac_nums(match)
+			total += a * b
+
+		}
 	}
 
-	for i, element := range list1 {
-		list2[i] = element + 1
-	}
-
-	list3 = append(list1, list1...)
-
-	fmt.Println("list1", list1)
-
-	fmt.Println("list2", list2)
-
-	fmt.Println("list3", list3)
-
-	list3[3] = 1000
-	list3[2] = 1001
-	list3[3] = 1002
-	list3[3] = 1003
-
-	fmt.Println("list3", list3)
-
-	fmt.Println("list1", list1)
+	fmt.Println(total)
 
 }

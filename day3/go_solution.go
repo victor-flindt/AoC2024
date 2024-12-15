@@ -1,15 +1,13 @@
 package main
 
 import (
-	"encoding/csv"
 	"fmt"
 	"os"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
-func extrac_nums(str string) (a int64, b int64) {
+func find_digits(str string) (a int64, b int64) {
 
 	regex, _ := regexp.Compile("\\d{1,3}")
 
@@ -23,40 +21,52 @@ func extrac_nums(str string) (a int64, b int64) {
 
 }
 
+func find_dont(data string) [][]int {
+
+	regex, _ := regexp.Compile("do\\(\\)")
+
+	matches := regex.FindAllStringIndex(data, -1)
+
+	return matches
+
+}
+
 func main() {
-	// Open the first file
-	file, err := os.Open("data.data")
+
+	bytes, err := os.ReadFile("test_data_part2.data")
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
 
-	// solving problem1
-	reader := csv.NewReader(file)
-	reader.FieldsPerRecord = -1
-	var total int64 = 0
+	data_as_string := string(bytes)
 
-	for {
-		// read row in from csv file
-		row, err := reader.Read()
+	// donts := find_dont(data_as_string)
 
-		if err != nil {
-			if err.Error() == "EOF" {
-				break
-			}
-			panic(err)
-		}
+	fmt.Println(data_as_string[59:60], data_as_string[62:63])
 
-		regex, _ := regexp.Compile("mul\\(\\d{1,3}\\,\\d{1,3}\\)")
+	// var total int64 = 0
 
-		matches := regex.FindAllString(strings.Join(row[:], ","), -1)
-		for _, match := range matches {
-			a, b := extrac_nums(match)
-			total += a * b
+	// for {
+	// 	// read row in from csv file
+	// 	row, err := reader.Read()
 
-		}
-	}
+	// 	if err != nil {
+	// 		if err.Error() == "EOF" {
+	// 			break
+	// 		}
+	// 		panic(err)
+	// 	}
 
-	fmt.Println(total)
+	// 	// regex, _ := regexp.Compile("mul\\(\\d{1,3}\\,\\d{1,3}\\)")
+
+	// 	// matches := regex.FindAllString(strings.Join(row[:], ","), -1)
+	// 	// for _, match := range matches {
+	// 	// 	a, b := find_digits(match)
+	// 	// 	total += a * b
+
+	// 	// }
+	// }
+
+	// fmt.Println(total)
 
 }

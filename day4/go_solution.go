@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"strings"
 )
 
 // func pad_matrix(matrix []string) ([]string){
@@ -38,21 +39,20 @@ func main() {
 	matrix = append(matrix, []string{"*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"})
 	matrix = append(matrix, []string{"*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"})
 
-	row_pad := []string{"*", "*", "*", "*"}
-
 	for {
-
+		row_pad := []string{"*", "*", "*", "*"}
 		// read row in from csv file
 		row, err := reader.Read()
 		if err != nil {
 			break
 		}
 
-		row_pad = append(row_pad, row...)
+		row_pad = append(row_pad, strings.Split(row[0], "")...)
 		row_pad = append(row_pad, []string{"*", "*", "*", "*"}...)
 
 		matrix = append(matrix, row_pad)
 
+		row_pad = []string{}
 		row_index += 1
 	}
 	matrix = append(matrix, []string{"*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"})
@@ -60,9 +60,13 @@ func main() {
 	matrix = append(matrix, []string{"*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"})
 	matrix = append(matrix, []string{"*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"})
 
-	for _, row := range matrix {
-		fmt.Println(len(row), row)
+	for i := 4; i < len(matrix[0])-4; i++ {
 
+		for j := 4; j < len(matrix)-4; j++ {
+			fmt.Print(matrix[i][j])
+
+		}
+		fmt.Println("")
 	}
 
 }

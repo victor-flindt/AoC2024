@@ -99,8 +99,10 @@ func main() {
 			// PART 2 exercise
 			var title_slice_up_part2 []string = []string{matrix[i+2][j], matrix[i+1][j+1], matrix[i][j+2]}
 			var title_slice_down_part2 []string = []string{matrix[i][j], matrix[i+1][j+1], matrix[i+2][j+2]}
-			if (reflect.DeepEqual(title_slice_up_part2, mas_slice) || reflect.DeepEqual(title_slice_up_part2, mas_invert_slice)) && (reflect.DeepEqual(title_slice_down_part2, mas_slice) || reflect.DeepEqual(title_slice_down_part2, mas_invert_slice)) {
-				fmt.Println("tilted up", title_slice_up_part2, "row:", i-4, "col", j-4)
+
+			if (reflect.DeepEqual(title_slice_up_part2, mas_slice) || reflect.DeepEqual(title_slice_up_part2, mas_invert_slice)) &&
+				(reflect.DeepEqual(title_slice_down_part2, mas_slice) || reflect.DeepEqual(title_slice_down_part2, mas_invert_slice)) {
+				// fmt.Println("tilted up", title_slice_up_part2, "row:", i-4, "col", j-4)
 				total_part2 += 1
 			}
 

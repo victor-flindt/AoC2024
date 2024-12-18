@@ -51,45 +51,63 @@ func main() {
 	matrix = append(matrix, []string{"*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"})
 	matrix = append(matrix, []string{"*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*", "*"})
 
-	var total int = 0
-
+	var total_part1 int = 0
+	var total_part2 int = 0
 	x_mas_slice := []string{"X", "M", "A", "S"}
 	x_max_invert_slice := []string{"S", "A", "M", "X"}
+
+	mas_slice := []string{"M", "A", "S"}
+	mas_invert_slice := []string{"S", "A", "M"}
 
 	// row
 	for i := 4; i < len(matrix[0])-4; i++ {
 		// col
 		for j := 4; j < len(matrix)-4; j++ {
+			if (matrix[i][j] == "X") || (matrix[i][j] == "S") || (matrix[i][j] == "M") {
+
+			} else {
+				continue
+			}
+
+			// PART 1 exercise
 
 			// horizontal case
 			var horizontal_slice []string = matrix[i][j : j+4]
 			if reflect.DeepEqual(horizontal_slice, x_mas_slice) || reflect.DeepEqual(horizontal_slice, x_max_invert_slice) {
-				fmt.Println("Horizontal", horizontal_slice, "row:", i-4, "col", j-4)
-				total += 1
+				// fmt.Println("Horizontal", horizontal_slice, "row:", i-4, "col", j-4)
+				total_part1 += 1
 			}
 			// vertical case
 			var vertical_slice []string = []string{matrix[i][j], matrix[i+1][j], matrix[i+2][j], matrix[i+3][j]}
 			if reflect.DeepEqual(vertical_slice, x_mas_slice) || reflect.DeepEqual(vertical_slice, x_max_invert_slice) {
-				fmt.Println("vertical", vertical_slice, "row:", i-4, "col", j-4)
-				total += 1
+				// fmt.Println("vertical", vertical_slice, "row:", i-4, "col", j-4)
+				total_part1 += 1
 			}
 			// tilted up case
 			var titled_slice_up []string = []string{matrix[i][j], matrix[i+1][j+1], matrix[i+2][j+2], matrix[i+3][j+3]}
 			if reflect.DeepEqual(titled_slice_up, x_mas_slice) || reflect.DeepEqual(titled_slice_up, x_max_invert_slice) {
-				fmt.Println("tilted up", titled_slice_up, "row:", i-4, "col", j-4)
-				total += 1
+				// fmt.Println("tilted up", titled_slice_up, "row:", i-4, "col", j-4)
+				total_part1 += 1
 			}
 			// tilted down case
 			var titled_slice_down []string = []string{matrix[i][j], matrix[i-1][j+1], matrix[i-2][j+2], matrix[i-3][j+3]}
 			if reflect.DeepEqual(titled_slice_down, x_mas_slice) || reflect.DeepEqual(titled_slice_down, x_max_invert_slice) {
-				fmt.Println("tilted down", titled_slice_down, "row:", i-4, "col", j-4)
-				total += 1
+				// fmt.Println("tilted down", titled_slice_down, "row:", i-4, "col", j-4)
+				total_part1 += 1
 			}
-			// fmt.Print(matrix[current_point[0]:current_point[1]])
-			// fmt.Println(i-4, j-4, matrix[i][j])
+
+			// PART 2 exercise
+			var title_slice_up_part2 []string = []string{matrix[i+2][j], matrix[i+1][j+1], matrix[i][j+2]}
+			var title_slice_down_part2 []string = []string{matrix[i][j], matrix[i+1][j+1], matrix[i+2][j+2]}
+			if (reflect.DeepEqual(title_slice_up_part2, mas_slice) || reflect.DeepEqual(title_slice_up_part2, mas_invert_slice)) && (reflect.DeepEqual(title_slice_down_part2, mas_slice) || reflect.DeepEqual(title_slice_down_part2, mas_invert_slice)) {
+				fmt.Println("tilted up", title_slice_up_part2, "row:", i-4, "col", j-4)
+				total_part2 += 1
+			}
 
 		}
 
 	}
-	fmt.Println(total)
+	fmt.Println("total part1", total_part1)
+	fmt.Println("total part2", total_part2)
+
 }

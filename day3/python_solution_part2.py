@@ -1,17 +1,18 @@
 import re
+from typing import Match, Iterator
 
 def find_dont(data) -> Iterator[Match[str]]:
     return re.finditer(r"don't\(\)",data)
  
 
-def find_do(data):
+def find_do(data) -> Iterator[Match[str]]:
     return re.finditer(r'do\(\)',data)
     
 
-def find_mul(data):
+def find_mul(data) -> Iterator[Match[str]]:
     return re.finditer(r'mul\(\d{1,3}\,\d{1,3}\)',data)
     
-def find_digits(string: str):
+def find_digits(string: str) -> tuple[int,int]:
     a,b = re.findall(r'\d{1,3}', string)
     return int(a),int(b)
 

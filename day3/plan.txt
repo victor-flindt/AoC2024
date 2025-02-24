@@ -1,0 +1,5 @@
+step1: read matrix
+step2: pad matrix with null padding
+step3: create forwards / backswards kernel
+step4: run kernal over matrix
+step5: count matches and print result

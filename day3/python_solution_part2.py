@@ -1,7 +1,6 @@
 import re
 
-
-def find_dont(data):
+def find_dont(data) -> Iterator[Match[str]]:
     return re.finditer(r"don't\(\)",data)
  
 

@@ -3,6 +3,7 @@ Given multiple reports (each containing a list of numbers), determine how many r
 
 The numbers are either all increasing or all decreasing.
 The difference between any two adjacent numbers is between 1 and 3 (inclusive).
+
 Task 2:
 Update the analysis to handle the "Problem Dampener," which allows the removal of one level in an unsafe report. A report is now safe if:
 

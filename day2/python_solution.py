@@ -1,9 +1,7 @@
 import numpy as np
-from numpy import genfromtxt
 import pandas as pd
-import sys
 
-def is_safe(row) -> bool:
+def is_safe(row) -> tuple[bool, str]:
     row = row[~np.isnan(row)]
     if row[0] > row[1]:
         for index in range(0,len(row)-1):
@@ -24,13 +22,10 @@ def is_safe(row) -> bool:
         return True, ''
     
 
-
 data = pd.read_csv('data.txt', header = None, delimiter=',', names = range(9))
 data = data.to_numpy()
 
-# data = np.genfromtxt('data.txt', delimiter = ',')
 total_safe = 0
-
 
 for index, row in enumerate(data):
 
@@ -44,8 +39,3 @@ for index, row in enumerate(data):
 
 
 print(f'total: {total_safe}')
-    
-
-
-
-# print(df)

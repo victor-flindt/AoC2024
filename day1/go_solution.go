@@ -35,6 +35,7 @@ func main() {
 
 	slices.Sort(list1)
 	slices.Sort(list2)
+
 	var total_distance float64
 	for index, _ := range list1 {
 		total_distance += math.Abs(list1[index] - list2[index])
